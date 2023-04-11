@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page"; 
+}
+<a asp-action="Create">Create</a>
+@model IEnumerable<TestItem1>
+<h1>Item 1</h1>
+<table>
+    <tr>
+        <td>TenantId</td>
+        <td>CreatedbyUserId</td>
+        <td>Description</td>
+        <td>CustomProp</td>
+        <td>Sharedwith</td>
+        <td>canView</td>
+    </tr>
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model=>item.TenantId)</td>
+            <td>@Html.DisplayFor(model=>item.CreatedbyUserId)</td>
+            <td>@Html.DisplayFor(model=>item.Description)</td> 
+            <td>@Html.DisplayFor(model=>item.CustomProp)</td>
+            <td>@Html.DisplayFor(model=>item.Sharedwith)</td>
+            <td>@Html.DisplayFor(model=>item.canView)</td>
+        </tr>
+    }
+</table>
+
+<a asp-action="Index2">TestItem2</a>

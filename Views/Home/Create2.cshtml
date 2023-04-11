@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page"; 
+}
+@model TestItem2
+<h1>Item 2</h1>
+<form asp-action="Create2">
+    <input asp-for="TenantId" />
+    <input asp-for="CreatedbyUserId" />
+    <input asp-for="Description" />
+    <input asp-for="CustomProp" />
+    <select asp-for="Sharedwith">
+        <option value="0">Public</option>
+        <option value="1">Private</option>
+        <option value="2">Tenant</option>
+    </select>
+    <input type="submit" value="Submit" />
+</form>
