@@ -6,6 +6,7 @@
 <h1>Item 2</h1>
 <table>
     <tr>
+        <td>Id</td>
         <td>TenantId</td>
         <td>CreatedbyUserId</td>
         <td>Description</td>
@@ -16,6 +17,7 @@
     @foreach(var item in Model)
     {
         <tr>
+            <td>@Html.DisplayFor(model=>item.Id)</td>
             <td>@Html.DisplayFor(model=>item.TenantId)</td>
             <td>@Html.DisplayFor(model=>item.CreatedbyUserId)</td>
             <td>@Html.DisplayFor(model=>item.Description)</td>

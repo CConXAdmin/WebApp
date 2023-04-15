@@ -30,21 +30,38 @@ namespace WebApplication1
 
         private static async Task Seeds(ApplicationDbContext db)
         {
-            db.TestItem1s.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 1, Description = "Public item created by me", CustomProp = "A", Sharedwith = Sharedwith.Public });
-            db.TestItem1s.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 2, Description = "Public item by someone else", CustomProp = "A", Sharedwith = Sharedwith.Public });
-            db.TestItem1s.Add(new TestItem1 { TenantId = 3, CreatedbyUserId = 3, Description = "Private item by someone else", CustomProp = "Should not see", Sharedwith = Sharedwith.Private });  
-            db.TestItem1s.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 1, Description = "Private item by me", CustomProp = "A", Sharedwith = Sharedwith.Private });
-            db.TestItem1s.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 2, Description = "Tenant item my tenant", CustomProp = "A", Sharedwith = Sharedwith.Tenant });
-            db.TestItem1s.Add(new TestItem1 { TenantId = 2, CreatedbyUserId = 2, Description = "Tenant item other tenant", CustomProp = "Should not see", Sharedwith = Sharedwith.Tenant });
-            db.TestItem1s.Add(new TestItem1 { TenantId = 3, CreatedbyUserId = 3, Description = "Archive item", CustomProp = "Should not see", Sharedwith = Sharedwith.Archive });
+            var newmodels1 = new List<TestItem1>();
+            var newmodels2 = new List<TestItem2>();
+            var existinmodels1 = db.TestItem1s;
+            var existinmodels2 = db.TestItem2s;
 
-            db.TestItem2s.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 1, Description = "Public item by me", CustomProp = "A", Sharedwith = Sharedwith.Public });
-            db.TestItem2s.Add(new TestItem2 { TenantId = 2, CreatedbyUserId = 3, Description = "Public item by dif tenant", CustomProp = "A", Sharedwith = Sharedwith.Public });
-            db.TestItem2s.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 1, Description = "Private item by me", CustomProp = "A", Sharedwith = Sharedwith.Private });
-            db.TestItem2s.Add(new TestItem2 { TenantId = 2, CreatedbyUserId = 2, Description = "Private item by someone else", CustomProp = "Should not see", Sharedwith = Sharedwith.Private });
-            db.TestItem2s.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 2, Description = "Tenant item my tenant", CustomProp = "A", Sharedwith = Sharedwith.Tenant });
-            db.TestItem2s.Add(new TestItem2 { TenantId = 2, CreatedbyUserId = 3, Description = "Tenant item other tenant", CustomProp = "Should not see", Sharedwith = Sharedwith.Tenant });
-            db.TestItem2s.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 1, Description = "Archive item", CustomProp = "Should not see", Sharedwith = Sharedwith.Archive });
+            newmodels1.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 1, Description = "Public item created by me", CustomProp = "A", Sharedwith = Sharedwith.Public });
+            newmodels1.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 2, Description = "Public item by someone else", CustomProp = "A", Sharedwith = Sharedwith.Public });
+            newmodels1.Add(new TestItem1 { TenantId = 3, CreatedbyUserId = 3, Description = "Private item by someone else", CustomProp = "Should not see", Sharedwith = Sharedwith.Private });  
+            newmodels1.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 1, Description = "Private item by me", CustomProp = "A", Sharedwith = Sharedwith.Private });
+            newmodels1.Add(new TestItem1 { TenantId = 1, CreatedbyUserId = 2, Description = "Tenant item my tenant", CustomProp = "A", Sharedwith = Sharedwith.Tenant });
+            newmodels1.Add(new TestItem1 { TenantId = 2, CreatedbyUserId = 2, Description = "Tenant item other tenant", CustomProp = "Should not see", Sharedwith = Sharedwith.Tenant });
+            newmodels1.Add(new TestItem1 { TenantId = 3, CreatedbyUserId = 3, Description = "Archive item", CustomProp = "Should not see", Sharedwith = Sharedwith.Archive });
+
+            newmodels2.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 1, Description = "Public item by me", CustomProp = "A", Sharedwith = Sharedwith.Public });
+            newmodels2.Add(new TestItem2 { TenantId = 2, CreatedbyUserId = 3, Description = "Public item by dif tenant", CustomProp = "A", Sharedwith = Sharedwith.Public });
+            newmodels2.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 1, Description = "Private item by me", CustomProp = "A", Sharedwith = Sharedwith.Private });
+            newmodels2.Add(new TestItem2 { TenantId = 2, CreatedbyUserId = 2, Description = "Private item by someone else", CustomProp = "Should not see", Sharedwith = Sharedwith.Private });
+            newmodels2.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 2, Description = "Tenant item my tenant", CustomProp = "A", Sharedwith = Sharedwith.Tenant });
+            newmodels2.Add(new TestItem2 { TenantId = 2, CreatedbyUserId = 3, Description = "Tenant item other tenant", CustomProp = "Should not see", Sharedwith = Sharedwith.Tenant });
+            newmodels2.Add(new TestItem2 { TenantId = 1, CreatedbyUserId = 1, Description = "Archive item", CustomProp = "Should not see", Sharedwith = Sharedwith.Archive });
+
+            foreach (var item in newmodels1) {
+                var existing = existinmodels1.Any(x=>x.Description==item.Description);
+                if (!existing) db.Add(item); 
+            }
+            foreach (var item in newmodels2)
+            {
+                var existing = existinmodels2.Any(x => x.Description == item.Description);
+                if (!existing) db.Add(item);
+            }
+
+
             await db.SaveChangesAsync();
         }
 

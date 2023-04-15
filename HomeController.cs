@@ -11,8 +11,13 @@ namespace WebApplication1
         }
         public IActionResult Index()
         {
-            var model = _context.GetTestItem1s();
-            return View(model.ToList());
+            var model2 = _context.GetTestItem1s(_context);
+
+            var model1 = _context.TestItem1s.FindTheLast(x => x.Id, 2);
+            var model = _context.TestItem1s.canView(_context).AsEnumerable(); 
+
+
+            return View(model);
         }
         public IActionResult Create()
         { 
@@ -28,7 +33,7 @@ namespace WebApplication1
         }
         public IActionResult Index2()
         {
-            var model = _context.GetTestItem2s();
+            var model = _context.TestItem2s.canView(_context);
             return View(model.ToList());
         }
         public IActionResult Create2()
